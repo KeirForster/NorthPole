@@ -1,27 +1,51 @@
-<div class='main-nav'>
-    <div class='navbar bg-dark'>
-        <div class='navbar-header d-flex flex-row align-items-center justify-content-center flex-grow-1'>
-            <a class='navbar-brand text-center' [routerLink]='["/"]' (click)='collapse()'>NorthPole</a>
-            <div class='hamburger hamburger--slider position-absolute' data-toggle='collapse'
-                data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded'
-                [ngClass]='{ "is-active": isExpanded}' (click)='toggle()'>
+<div class="main-nav">
+    <div class="navbar bg-dark">
+        <div
+            class="navbar-header d-flex flex-row align-items-center justify-content-center flex-grow-1"
+        >
+            <a
+                class="navbar-brand text-center"
+                [routerLink]="['/']"
+                (click)="collapse()"
+                >NorthPole</a
+            >
+            <div
+                class="hamburger hamburger--slider position-absolute"
+                data-toggle="collapse"
+                data-target=".navbar-collapse"
+                [attr.aria-expanded]="isExpanded"
+                [ngClass]="{ 'is-active': isExpanded }"
+                (click)="toggle()"
+            >
                 <div class="hamburger-box">
                     <div class="hamburger-inner"></div>
                 </div>
             </div>
         </div>
-        <div class='navbar-collapse collapse' [ngClass]='{ "show": isExpanded }'>
-            <div class='nav flex-column flex-grow-1 nav-pills'>
-                <a routerLink="/home" routerLinkActive="link-active" (click)='collapse()'
-                    class="nav-link">
+        <div class="navbar-collapse collapse" [ngClass]="{ show: isExpanded }">
+            <div class="nav flex-column flex-grow-1 nav-pills">
+                <a
+                    routerLink="/home"
+                    routerLinkActive="link-active"
+                    (click)="collapse()"
+                    class="nav-link"
+                >
                     <fa-icon [icon]="faHome"></fa-icon> Home
                 </a>
-                <a routerLink="/login" routerLinkActive="link-active" (click)='collapse()'
-                    class="nav-link">
+                <a
+                    routerLink="/login"
+                    routerLinkActive="link-active"
+                    (click)="collapse()"
+                    class="nav-link"
+                >
                     <fa-icon [icon]="faSignInAlt"></fa-icon> Login
                 </a>
-                <a routerLink="/register" routerLinkActive="link-active"
-                    (click)='collapse()' class="nav-link">
+                <a
+                    routerLink="/register"
+                    routerLinkActive="link-active"
+                    (click)="collapse()"
+                    class="nav-link"
+                >
                     <fa-icon [icon]="faUserPlus"></fa-icon> Register
                 </a>
             </div>

@@ -2,12 +2,14 @@
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     .body-content {
         padding-top: 56px;
+        width: 100%;
     }
 }
 
 @media (min-width: 768px) {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     .body-content {
-        padding-left: 249px;
+        margin-left: 265px;
+        width: 100%;
     }
 }
