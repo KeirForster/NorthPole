@@ -54,7 +54,7 @@ namespace NorthPole.Controllers
             }
         }
 
-        // PUT children/{userName}
+        // PUT children/{UserName}
         [HttpPut("children/{userName}")]
         public ActionResult UpdateChild(string userName, [FromBody] ApplicationUser child)
         {
@@ -111,7 +111,7 @@ namespace NorthPole.Controllers
 
         }
 
-        // DELETE api/values/5
+        // DELETE children/{UserName}
         [HttpDelete("children/{userName}")]
         public ActionResult Delete(string userName)
         {
@@ -176,7 +176,6 @@ namespace NorthPole.Controllers
 
             try
             {
-
                 //get the current user
                 var dbUser = FetchCurrentUser();
 
