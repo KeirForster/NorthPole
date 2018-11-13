@@ -9,7 +9,7 @@ using SantaAPI.Data;
 namespace SantaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181109041422_FirstMigration")]
+    [Migration("20181113010713_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

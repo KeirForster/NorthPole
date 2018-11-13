@@ -29,6 +29,31 @@ namespace SantaAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var dbUserByEmail = await _userManager.FindByEmailAsync(model.Email);
+
+            if (dbUserByEmail != null)
+            {
+                return BadRequest(new
+                {
+                    error = "Email: \'" + model.Email + "\' already exists"
+                });
+            }
+
+            var dbUserByUserName = await _userManager.FindByNameAsync(model.UserName);
+
+            if (dbUserByUserName != null)
+            {
+                return BadRequest(new
+                {
+                    error = "UserName: \'" + model.FirstName + "\' already exists"
+                });
+            }
+
             var user = new ApplicationUser
             {
                 FirstName = model.FirstName,
@@ -44,7 +69,7 @@ namespace SantaAPI.Controllers
                 IsNaughty = model.IsNaughty,
                 DateCreated = DateTime.UtcNow,
                 Email = model.Email,
-                UserName = model.FirstName,
+                UserName = model.UserName,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -53,7 +78,7 @@ namespace SantaAPI.Controllers
             {
                 await _userManager.AddToRoleAsync(user, "Child");
             }
-            return Ok(new { Username = user.UserName });
+            return new OkResult();
         }
 
         /* /login */
@@ -61,12 +86,23 @@ namespace SantaAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] LoginViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var claim = new[] {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName)
+
+                var claims = new List<Claim> {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 };
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                claims.Add(new Claim("roles", string.Join(",", userRoles.ToArray())));
 
                 var signinKey = new SymmetricSecurityKey(
                   Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
@@ -76,6 +112,7 @@ namespace SantaAPI.Controllers
                 var token = new JwtSecurityToken(
                   issuer: _configuration["Jwt:Site"],
                   audience: _configuration["Jwt:Site"],
+                  claims: claims,
                   expires: DateTime.UtcNow.AddMinutes(expiryInMinutes),
                   signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
                 );

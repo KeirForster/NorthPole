@@ -17,6 +17,9 @@ namespace SantaAPI.ViewModels
         public string Password { get; set; }
 
         [Required]
+        public string UserName { get; set; }
+
+        [Required]
         public string FirstName { get; set; }
 
         [Required]
@@ -41,12 +44,12 @@ namespace SantaAPI.ViewModels
         public string Country { get; set; }
 
         [Required]
-        public int Latitude { get; set; }
+        public double Latitude { get; set; }
 
         [Required]
-        public int Longitude { get; set; }
+        public double Longitude { get; set; }
 
         [Required]
-        public Boolean IsNaughty { get; set; }
+        public bool IsNaughty { get; set; }
     }
 }
