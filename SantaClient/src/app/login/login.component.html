@@ -1,3 +1,65 @@
-<p>
-  login works!
-</p>
+<div class="form-container">
+    <form class="form-signin" #loginForm="ngForm">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="email" class="sr-only">Email address</label>
+        <input
+            id="email"
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="Email address"
+            autofocus
+            [(ngModel)]="model.email"
+            required
+            [disabled]="submitted"
+            #email="ngModel"
+        />
+
+        <!-- show error message if email is invalid -->
+        <div
+            [hidden]="email.pristine || email.valid"
+            class="alert alert-danger"
+        >
+            Email is required
+        </div>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input
+            id="password"
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Password"
+            [(ngModel)]="model.password"
+            required
+            [disabled]="submitted"
+            #password="ngModel"
+        />
+
+        <!-- show error message if password is invalid -->
+        <div
+            [hidden]="password.pristine || password.valid"
+            class="alert alert-danger"
+        >
+            Password is required
+        </div>
+
+        <!-- disable submit button if form is invalid -->
+        <button
+            class="btn btn-lg btn-primary btn-block"
+            type="submit"
+            (click)="login(); loginForm.reset()"
+            [disabled]="!loginForm.form.valid"
+        >
+            {{ submitted ? 'Signing in...' : 'Signin' }}
+
+            <!-- hide spinner if form has not beeen submitted -->
+            <span
+                class="position-absolute"
+                [class.d-none]="!submitted"
+                class="pl-2"
+            >
+                <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
+            </span>
+        </button>
+    </form>
+</div>
