@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { AuthenticateService } from './authenticate.service';
+import { AuthService } from './auth.service';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { LoginViewModel } from './login-view-model';
 
@@ -16,23 +16,24 @@ export class LoginComponent {
     submitted: boolean;
     loginError: string;
 
-    constructor(private authService: AuthenticateService) {
+    constructor(
+        private router: Router,
+        private authService: AuthService
+    ) {
         this.model = {} as LoginViewModel;
         this.faSync = faSync;
         this.submitted = false;
     }
 
     onSubmit(): void {
-        console.log(`model: ${JSON.stringify(this.model)}`);
-        this.submitted = true;
-        this.loginError = undefined; // remove any previous login errors
+        this.submitted = true; // disable the form until response
         this.authService.authenticate(this.model).subscribe(
-            (user: string) => {
-                console.log(user);
+            (res: string) => {
+                this.router.navigate(['/home']); // redirect to home
             },
             error => {
                 this.loginError = error; // set the error message
-                this.submitted = false; // reset the form
+                this.submitted = false; // enable the form
             }
         );
     }
