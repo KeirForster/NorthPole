@@ -1,63 +1,60 @@
 <div class="form-container">
-    <form class="form-signin" #loginForm="ngForm">
+    <form class="form-signin" (ngSubmit)="onSubmit()" #loginForm="ngForm">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+        <!-- login error -->
+        <div *ngIf="loginError" class="alert alert-danger my-2 text-center">
+            {{ loginError }}
+        </div>
+
+        <!-- email -->
         <label for="email" class="sr-only">Email address</label>
         <input
             id="email"
-            type="email"
-            name="email"
             class="form-control"
-            placeholder="Email address"
-            autofocus
-            [(ngModel)]="model.email"
+            name="email"
+            type="email"
             required
+            placeholder="Email address"
+            [(ngModel)]="model.email"
             [disabled]="submitted"
             #email="ngModel"
         />
-
-        <!-- show error message if email is invalid -->
-        <div
-            [hidden]="email.pristine || email.valid"
-            class="alert alert-danger"
-        >
+        <!-- email form validation error -->
+        <div *ngIf="email.invalid && email.dirty" class="alert alert-danger">
             Email is required
         </div>
+
+        <!-- password -->
         <label for="inputPassword" class="sr-only">Password</label>
         <input
             id="password"
-            type="password"
-            name="password"
             class="form-control"
+            name="password"
+            type="password"
+            required
             placeholder="Password"
             [(ngModel)]="model.password"
-            required
             [disabled]="submitted"
             #password="ngModel"
         />
-
-        <!-- show error message if password is invalid -->
+        <!-- password form validation error -->
         <div
-            [hidden]="password.pristine || password.valid"
+            *ngIf="password.invalid && password.dirty"
             class="alert alert-danger"
         >
             Password is required
         </div>
 
-        <!-- disable submit button if form is invalid -->
+        <!-- submit -->
         <button
             class="btn btn-lg btn-primary btn-block"
             type="submit"
-            (click)="login(); loginForm.reset()"
-            [disabled]="!loginForm.form.valid"
+            [disabled]="!loginForm.form.valid || submitted"
         >
             {{ submitted ? 'Signing in...' : 'Signin' }}
-
-            <!-- hide spinner if form has not beeen submitted -->
-            <span
-                class="position-absolute"
-                [class.d-none]="!submitted"
-                class="pl-2"
-            >
+            <!-- show spinner icon when form is submitted -->
+            <span *ngIf="submitted" class="position-absolute" class="pl-2">
                 <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
             </span>
         </button>
