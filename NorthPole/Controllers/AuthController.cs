@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace SantaAPI.Controllers
 {
+    [EnableCors("AllowAllOrigins")]
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
