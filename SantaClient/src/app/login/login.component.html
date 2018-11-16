@@ -15,12 +15,13 @@
             name="email"
             type="email"
             required
+            autocomplete="email"
             placeholder="Email address"
             [(ngModel)]="model.email"
             [disabled]="submitted"
             #email="ngModel"
         />
-        <!-- email form validation error -->
+        <!-- email form-validation error -->
         <div *ngIf="email.invalid && email.dirty" class="alert alert-danger">
             Email is required
         </div>
@@ -33,12 +34,13 @@
             name="password"
             type="password"
             required
+            autocomplete="password"
             placeholder="Password"
             [(ngModel)]="model.password"
             [disabled]="submitted"
             #password="ngModel"
         />
-        <!-- password form validation error -->
+        <!-- password form-validation error -->
         <div
             *ngIf="password.invalid && password.dirty"
             class="alert alert-danger"
