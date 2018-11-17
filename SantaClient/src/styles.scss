@@ -6,3 +6,18 @@
         overflow-x: hidden;
     }
 }
+
+body::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #6e6e6e;
+    outline: #333 solid 1px;
+}
+
+body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
