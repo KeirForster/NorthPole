@@ -1,15 +1,66 @@
-@media (max-width: 767px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    .body-content {
-        padding-top: 56px;
-        width: 100%;
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.app-container {
+    display: block;
+    height: auto;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    min-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.nav {
+    background-color: $dark;
+    box-shadow: 6px 0 6px rgba(0, 0, 0, 0.1);
+    display: block;
+    padding: 0;
+}
+
+.inner-nav {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.body {
+    display: block;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    padding: 0 15px;
+}
+
+@include media-breakpoint-down('md') {
+    .nav {
+        height: auto;
     }
 }
 
-@media (min-width: 768px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    .body-content {
-        margin-left: 265px;
-        width: 100%;
+@include media-breakpoint-up('md') {
+    .nav {
+        bottom: 0;
+        left: 0;
+        min-width: 260px;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+    }
+    .inner-nav {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    .body {
+        margin-left: 260px;
+        overflow-x: auto;
+        overflow-y: auto;
     }
 }

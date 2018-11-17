@@ -1,69 +1,65 @@
-<div class="main-nav">
-    <div class="navbar bg-dark">
-        <div
-            class="navbar-header d-flex flex-row align-items-center justify-content-center flex-grow-1"
+<div class="navbar">
+    <div
+        class="navbar-header d-flex justify-content-center align-items-center flex-grow-1"
+    >
+        <a
+            class="navbar-brand text-center"
+            [routerLink]="['/']"
+            (click)="collapse()"
+            >NorthPole</a
         >
-            <a
-                class="navbar-brand text-center"
-                [routerLink]="['/']"
-                (click)="collapse()"
-                >NorthPole</a
-            >
-            <div
-                class="hamburger hamburger--slider position-absolute"
-                data-toggle="collapse"
-                data-target=".navbar-collapse"
-                [attr.aria-expanded]="isExpanded"
-                [ngClass]="{ 'is-active': isExpanded }"
-                (click)="toggle()"
-            >
-                <div class="hamburger-box">
-                    <div class="hamburger-inner"></div>
-                </div>
-            </div>
+        <div
+            class="hamburger hamburger--slider position-absolute"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+            [attr.aria-expanded]="isExpanded"
+            [ngClass]="{ 'is-active': isExpanded }"
+            (click)="toggle()"
+        >
+            <div class="hamburger-box"><div class="hamburger-inner"></div></div>
         </div>
-        <div class="navbar-collapse collapse" [ngClass]="{ show: isExpanded }">
-            <div class="nav flex-column flex-grow-1 nav-pills">
-                <!-- show home if logged in -->
-                <a
-                    *ngIf="authenticated"
-                    routerLink="/home"
-                    routerLinkActive="link-active"
-                    (click)="collapse()"
-                    class="nav-link"
-                >
-                    <fa-icon [icon]="faHome"></fa-icon> Home
-                </a>
-                <!-- show login if not logged in -->
-                <a
-                    *ngIf="!authenticated"
-                    routerLink="/login"
-                    routerLinkActive="link-active"
-                    (click)="collapse()"
-                    class="nav-link"
-                >
-                    <fa-icon [icon]="faSignInAlt"></fa-icon> Login
-                </a>
-                <!-- show register if not logged in -->
-                <a
-                    *ngIf="!authenticated"
-                    routerLink="/register"
-                    routerLinkActive="link-active"
-                    (click)="collapse()"
-                    class="nav-link"
-                >
-                    <fa-icon [icon]="faUserPlus"></fa-icon> Register
-                </a>
-                <!-- show logout if logged in -->
-                <a
-                    *ngIf="authenticated"
-                    routerLink="/login"
-                    (click)="logout()"
-                    class="nav-link"
-                >
-                    <fa-icon [icon]="faUserPlus"></fa-icon> Logout
-                </a>
-            </div>
+    </div>
+    <div class="navbar-collapse collapse" [ngClass]="{ show: isExpanded }">
+        <div class="nav flex-column flex-grow-1 nav-pills">
+            <!-- show home if logged in -->
+            <a
+                *ngIf="authenticated"
+                routerLink="/home"
+                routerLinkActive="link-active"
+                (click)="collapse()"
+                class="nav-link"
+            >
+                <fa-icon [icon]="faHome"></fa-icon> Home
+            </a>
+            <!-- show login if not logged in -->
+            <a
+                *ngIf="!authenticated"
+                routerLink="/login"
+                routerLinkActive="link-active"
+                (click)="collapse()"
+                class="nav-link"
+            >
+                <fa-icon [icon]="faSignInAlt"></fa-icon> Login
+            </a>
+            <!-- show register if not logged in -->
+            <a
+                *ngIf="!authenticated"
+                routerLink="/register"
+                routerLinkActive="link-active"
+                (click)="collapse()"
+                class="nav-link"
+            >
+                <fa-icon [icon]="faUserPlus"></fa-icon> Register
+            </a>
+            <!-- show logout if logged in -->
+            <a
+                *ngIf="authenticated"
+                routerLink="/login"
+                (click)="logout()"
+                class="nav-link"
+            >
+                <fa-icon [icon]="faUserPlus"></fa-icon> Logout
+            </a>
         </div>
     </div>
 </div>

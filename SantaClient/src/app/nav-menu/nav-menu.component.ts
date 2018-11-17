@@ -15,15 +15,18 @@ import { Subscription } from 'rxjs';
 })
 export class NavMenuComponent implements OnInit, OnDestroy {
     private authSubscription: Subscription;
-    faUserPlus = faUserPlus;
-    faSignInAlt = faSignInAlt;
-    faHome = faHome;
-    isExpanded = false;
+    readonly faUserPlus;
+    readonly faSignInAlt;
+    readonly faHome;
+    isExpanded: boolean;
     authenticated: boolean;
 
     constructor(private router: Router, private authService: AuthService) {
-        // get current authentication status at runtime
         this.authenticated = this.authService.isAuthenticated();
+        this.faUserPlus = faUserPlus;
+        this.faSignInAlt = faSignInAlt;
+        this.faHome = faHome;
+        this.isExpanded = false;
     }
 
     ngOnInit(): void {
