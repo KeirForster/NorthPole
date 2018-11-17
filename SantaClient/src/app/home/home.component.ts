@@ -13,8 +13,8 @@ export class HomeComponent implements OnInit {
     admin: boolean;
 
     constructor(private authService: AuthService) {
-        this.username = authService.getSubject();
-        this.admin = authService.isInRole(ApplicationRole.Admin);
+        this.username = this.authService.getSubject();
+        this.admin = this.authService.isInRole(ApplicationRole.Admin);
     }
 
     ngOnInit() {}
