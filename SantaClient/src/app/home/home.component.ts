@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ApplicationRole } from './../login/application-role';
+import { AuthService } from './../login/auth.service';
+
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    username: string;
+    admin: boolean;
 
-  constructor() { }
+    constructor(private authService: AuthService) {
+        this.username = authService.getSubject();
+        this.admin = authService.isInRole(ApplicationRole.Admin);
+    }
 
-  ngOnInit() {
-  }
-
+    ngOnInit() {}
 }

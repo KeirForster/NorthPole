@@ -1,3 +1,20 @@
-<p>
-  home works!
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <p>Hello {{ username }}</p>
+
+            <!-- admin content -->
+            <div *ngIf="admin; else: child">
+                <h3>Welcome to Santa's List!</h3>
+                <h5>Manage the children below</h5>
+            </div>
+
+            <!-- child content -->
+            <ng-template #child>
+                <div>
+                    <p>Nothing to do as a child, thank you for registering</p>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
