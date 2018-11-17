@@ -1,10 +1,6 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-auto">
-            <app-nav-menu></app-nav-menu>
-        </div>
-        <div class="body-content">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
+<div class="app-container">
+    <!-- nav -->
+    <div class="nav"><app-nav-menu class="inner-nav"></app-nav-menu></div>
+    <!-- body -->
+    <div class="body"><router-outlet></router-outlet></div>
 </div>

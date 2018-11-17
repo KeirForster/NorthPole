@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApplicationRole } from './application-role';
 import { LoginViewModel } from './login-view-model';
+import { Observe } from './observe.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,7 @@ import { LoginViewModel } from './login-view-model';
 export class AuthService {
     private static readonly authenticateUrl =
         'https://localhost:44302/api/login';
+    private static readonly observeType = Observe.response;
     private static readonly tokenName = 'token';
     private static readonly invalidTokenMsg = 'invalid token';
     private static readonly authSuccessMsg = 'login success';
@@ -35,7 +37,7 @@ export class AuthService {
     authenticate(user: LoginViewModel): Observable<string> {
         return this.http
             .post(AuthService.authenticateUrl, user, {
-                observe: 'response'
+                observe: AuthService.observeType
             })
             .pipe(
                 tap(res => {
