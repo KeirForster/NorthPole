@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { ApplicationRole } from './application-role';
@@ -11,12 +11,16 @@ import { LoginViewModel } from './login-view-model';
 })
 export class AuthService {
     private static readonly authenticateUrl = 'https://localhost:44302/login';
-
     private subject: string;
     private expiration: Date;
     private roles: ApplicationRole[];
+    private authenticated: boolean;
+    readonly authenticationStatus: Subject<boolean>;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        this.authenticated = false;
+        this.authenticationStatus = new Subject<boolean>();
+    }
 
     /**
      * Authenticate a user on the server.
@@ -30,29 +34,58 @@ export class AuthService {
                 observe: 'response'
             })
             .pipe(
-                tap(res => this.setAuthorizationToken(res.body)), // store id token
+                tap(res => {
+                    this.setAuthorizationToken(res.body); // store id token
+                    this.authenticated = true; // update current auth status
+                    this.authenticationStatus.next(true); // broadcast auth status
+                }),
                 map(res => 'login success'), // pass back a success message
                 catchError(this.handleError) // handle error
             );
     }
 
-    getAuthorizationToken(): string {
-        return localStorage.getItem('token');
+    logout(): void {
+        localStorage.removeItem('token');
+        this.authenticated = false;
+        this.authenticationStatus.next(false);
+        this.subject = undefined;
+        this.expiration = undefined;
+        this.roles = undefined;
     }
 
-    getSubject(): string {
-        return this.subject;
+    getAuthorizationToken(): string | null {
+        if (this.authenticated) {
+            return localStorage.getItem('token');
+        }
+        return null;
     }
 
-    getRoles(): ApplicationRole[] {
-        return this.roles;
+    getSubject(): string | null {
+        if (this.authenticated) {
+            return this.subject;
+        }
+        return null;
+    }
+
+    getRoles(): ApplicationRole[] | null {
+        if (this.authenticated) {
+            return this.roles;
+        }
+        return null;
     }
 
     isExpired(): boolean {
-        const now = new Date();
-        const nowMilli = now.getTime();
-        const expMilli =  this.expiration.getTime();
-        return expMilli - nowMilli < 0;
+        if (this.authenticated) {
+            const now = new Date();
+            const nowMilli = now.getTime();
+            const expMilli = this.expiration.getTime();
+            return expMilli - nowMilli < 0;
+        }
+        return true;
+    }
+
+    isAuthenticated(): boolean {
+        return this.authenticated;
     }
 
     private setAuthorizationToken(body: any): void {
