@@ -12,8 +12,9 @@ import { LoginViewModel } from './login-view-model';
 export class AuthService {
     private static readonly authenticateUrl =
         'https://localhost:44302/api/login';
-    private static readonly notAuthenticatedMsg = 'user is not authenticated';
+    private static readonly tokenName = 'token';
     private static readonly invalidTokenMsg = 'invalid token';
+    private static readonly authSuccessMsg = 'login success';
     private subject: string;
     private expiration: Date;
     private roles: ApplicationRole[];
@@ -38,45 +39,46 @@ export class AuthService {
             })
             .pipe(
                 tap(res => {
-                    this.setAuthorizationToken(res.body); // store id token
+                    this.setAuthorizationToken(res.body); // store token
                     this.setApplicationUserAttributes(
                         // assign instance variables
                         this.getAuthorizationToken()
                     );
                 }),
-                map(res => 'login success'), // pass back a success message
+                map(res => AuthService.authSuccessMsg), // pass back a success message
                 catchError(this.handleError) // handle error
             );
     }
 
     logout(): void {
-        localStorage.removeItem('token');
+        localStorage.removeItem(AuthService.tokenName);
         this.subject = undefined;
         this.expiration = undefined;
         this.roles = undefined;
-        this.setAuthenticated(false);
-        this.setAuthenticationStatus(false);
+        this.authenticated = false;
+        this.authenticationStatus.next(false);
     }
 
-    getAuthorizationToken(): string {
-        if (this.authenticated) {
-            return localStorage.getItem('token');
+    getAuthorizationToken(): string | null {
+        const token = localStorage.getItem(AuthService.tokenName);
+        if (token) {
+            return token;
         }
-        throw new Error(AuthService.notAuthenticatedMsg);
+        return null;
     }
 
     getSubject(): string | null {
         if (this.authenticated) {
             return this.subject;
         }
-        throw new Error(AuthService.notAuthenticatedMsg);
+        return null;
     }
 
     getRoles(): ApplicationRole[] | null {
         if (this.authenticated) {
             return this.roles;
         }
-        throw new Error(AuthService.notAuthenticatedMsg);
+        return null;
     }
 
     isExpired(): boolean {
@@ -86,55 +88,36 @@ export class AuthService {
             const expMilli = this.expiration.getTime();
             return expMilli - nowMilli < 0;
         }
-        throw new Error(AuthService.notAuthenticatedMsg);
+        return true;
     }
 
     isAuthenticated(): boolean {
         return this.authenticated;
     }
 
-    private setAuthorizationToken(body: any): void {
-        localStorage.removeItem('token');
-        localStorage.setItem('token', body.token);
+    private setAuthorizationToken(responseBody: any): void {
+        localStorage.removeItem(AuthService.tokenName);
+        localStorage.setItem(AuthService.tokenName, responseBody.token);
     }
 
     private setApplicationUserAttributes(token: string): void {
-        if (token) {
+        if (token && token.length) {
             // decode token
             const payloadBase64Url = token.split('.')[1];
             const payload = JSON.parse(atob(payloadBase64Url));
 
-            this.setSubject(payload.sub); // username
+            this.subject = payload.sub; // username
 
             const exp = new Date(0); // begining of UTC converted to current timezone
             exp.setUTCSeconds(payload.exp); // add number of seconds to expiration
-            this.setExpiration(exp);
+            this.expiration = exp;
 
-            this.setRoles(payload.roles.split(',')); // Admin, Child, etc
-            this.setAuthenticated(true); // user is authenticated
-            this.setAuthenticationStatus(true); // broadcast authentication status
+            this.roles = payload.roles.split(','); // Admin, Child, etc
+            this.authenticated = true; // user is authenticated
+            this.authenticationStatus.next(true); // broadcast authentication status
+        } else {
+            throw new Error(AuthService.invalidTokenMsg);
         }
-        throw new Error(AuthService.invalidTokenMsg);
-    }
-
-    private setSubject(username: string): void {
-        this.subject = username;
-    }
-
-    private setExpiration(expirationDate: Date): void {
-        this.expiration = expirationDate;
-    }
-
-    private setRoles(roles: ApplicationRole[]): void {
-        this.roles = roles;
-    }
-
-    private setAuthenticated(authenticated: boolean): void {
-        this.authenticated = authenticated;
-    }
-
-    private setAuthenticationStatus(authenticated: boolean): void {
-        this.authenticationStatus.next(authenticated);
     }
 
     private handleError(error: HttpErrorResponse) {
