@@ -42,8 +42,8 @@ export class AuthService {
             .pipe(
                 tap(res => {
                     this.setAuthorizationToken(res.body); // store token
+                    // assign instance variables
                     this.setApplicationUserAttributes(
-                        // assign instance variables
                         this.getAuthorizationToken()
                     );
                 }),
@@ -73,28 +73,76 @@ export class AuthService {
         if (this.authenticated) {
             return this.subject;
         }
-        return null;
+
+        // not authenticated (user potentially refreshed the browser)
+        // attempt to retrieve stored token
+        const token = this.getAuthorizationToken();
+
+        if (this.tokenIsValid(token)) {
+            // update instance variables
+            this.setApplicationUserAttributes(token);
+            return this.subject;
+        } else {
+            // no valid token found
+            return null;
+        }
+    }
+
+    isExpired(): boolean {
+        if (this.authenticated) {
+            return this.tokenIsExpired();
+        }
+
+        // not authenticated (user potentially refreshed the browser)
+        // attempt to retrieve stored token
+        const token = this.getAuthorizationToken();
+
+        if (this.tokenIsValid(token)) {
+            // update instance variables
+            this.setApplicationUserAttributes(token);
+            return this.tokenIsExpired();
+        } else {
+            // no valid token found
+            return true;
+        }
     }
 
     getRoles(): ApplicationRole[] | null {
         if (this.authenticated) {
             return this.roles;
         }
-        return null;
-    }
 
-    isExpired(): boolean {
-        if (this.authenticated) {
-            const now = new Date();
-            const nowMilli = now.getTime();
-            const expMilli = this.expiration.getTime();
-            return expMilli - nowMilli < 0;
+        // not authenticated (user potentially refreshed the browser)
+        // attempt to retrieve stored token
+        const token = this.getAuthorizationToken();
+
+        if (this.tokenIsValid(token)) {
+            // update instance variables
+            this.setApplicationUserAttributes(token);
+            return this.roles;
+        } else {
+            // no valid token found
+            return null;
         }
-        return true;
     }
 
     isAuthenticated(): boolean {
-        return this.authenticated;
+        if (this.authenticated) {
+            return true;
+        }
+
+        // not authenticated (user potentially refreshed the browser)
+        // attempt to retrieve stored token
+        const token = this.getAuthorizationToken();
+
+        if (this.tokenIsValid(token)) {
+            // update instance variables
+            this.setApplicationUserAttributes(token);
+            return this.authenticated;
+        } else {
+            // no valid token found
+            return false;
+        }
     }
 
     private setAuthorizationToken(responseBody: any): void {
@@ -102,8 +150,22 @@ export class AuthService {
         localStorage.setItem(AuthService.tokenName, responseBody.token);
     }
 
-    private setApplicationUserAttributes(token: string): void {
+    private tokenIsValid(token: string): boolean {
         if (token && token.length) {
+            return true;
+        }
+        return false;
+    }
+
+    private tokenIsExpired(): boolean {
+        const now = new Date();
+        const nowMilli = now.getTime();
+        const expMilli = this.expiration.getTime();
+        return expMilli - nowMilli < 0;
+    }
+
+    private setApplicationUserAttributes(token: string): void {
+        if (this.tokenIsValid(token)) {
             // decode token
             const payloadBase64Url = token.split('.')[1];
             const payload = JSON.parse(atob(payloadBase64Url));
