@@ -1,5 +1,6 @@
+import { AuthService } from './../login/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { RegisterViewModel } from './register-view-model';
@@ -17,7 +18,8 @@ export class RegisterComponent implements OnInit {
     registerErrorMsg: string;
     registerForm: NgForm;
 
-    constructor() {
+    constructor(private authService: AuthService) {
+        this.authService.logout(); // logout any previously logged-in users
         this.model = {} as RegisterViewModel;
         this.faSync = faSync;
         this.submitted = false;
