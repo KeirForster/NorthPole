@@ -70,60 +70,31 @@ export class AuthService {
     }
 
     getSubject(): string | null {
-        if (this.authenticated) {
+        if (this.isAuthenticated()) {
             return this.subject;
         }
-
-        // not authenticated (user potentially refreshed the browser)
-        // attempt to retrieve stored token
-        const token = this.getAuthorizationToken();
-
-        if (this.tokenIsValid(token)) {
-            // update instance variables
-            this.setApplicationUserAttributes(token);
-            return this.subject;
-        } else {
-            // no valid token found
-            return null;
-        }
+        return null;
     }
 
     isExpired(): boolean {
-        if (this.authenticated) {
+        if (this.isAuthenticated()) {
             return this.tokenIsExpired();
         }
-
-        // not authenticated (user potentially refreshed the browser)
-        // attempt to retrieve stored token
-        const token = this.getAuthorizationToken();
-
-        if (this.tokenIsValid(token)) {
-            // update instance variables
-            this.setApplicationUserAttributes(token);
-            return this.tokenIsExpired();
-        } else {
-            // no valid token found
-            return true;
-        }
+        return true;
     }
 
     getRoles(): ApplicationRole[] | null {
-        if (this.authenticated) {
+        if (this.isAuthenticated()) {
             return this.roles;
         }
+        return null;
+    }
 
-        // not authenticated (user potentially refreshed the browser)
-        // attempt to retrieve stored token
-        const token = this.getAuthorizationToken();
-
-        if (this.tokenIsValid(token)) {
-            // update instance variables
-            this.setApplicationUserAttributes(token);
-            return this.roles;
-        } else {
-            // no valid token found
-            return null;
+    isInRole(roleName: ApplicationRole): boolean {
+        if (this.isAuthenticated()) {
+            return this.roles.includes(roleName);
         }
+        return false;
     }
 
     isAuthenticated(): boolean {

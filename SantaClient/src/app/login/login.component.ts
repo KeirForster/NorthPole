@@ -19,6 +19,7 @@ export class LoginComponent implements OnDestroy {
     loginError: string;
 
     constructor(private router: Router, private authService: AuthService) {
+        this.authService.logout(); // logout any previously logged-in users
         this.model = {} as LoginViewModel;
         this.faSync = faSync;
         this.submitted = false;
