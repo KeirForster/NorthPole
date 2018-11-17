@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 namespace SantaAPI.Controllers
 {
     [EnableCors("AllowAllOrigins")]
+    [Route("api")]
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
