@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SantaAPI.Data;
@@ -12,6 +13,7 @@ using SantaAPI.ViewModels;
 namespace NorthPole.Controllers
 {
     [Produces("application/json")]
+    [EnableCors("AllowAllOrigins")]
     [Route("api")]
     [ApiController]
     [Authorize]
