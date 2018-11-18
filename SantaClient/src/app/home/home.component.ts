@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ApplicationRole } from '../login/application-role.enum';
 import { AuthService } from './../login/auth.service';
@@ -8,8 +8,8 @@ import { AuthService } from './../login/auth.service';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
-    username: string;
+export class HomeComponent {
+    readonly username: string;
 
     readonly admin: boolean;
 
@@ -17,6 +17,4 @@ export class HomeComponent implements OnInit {
         this.username = this.authService.getSubject();
         this.admin = this.authService.isInRole(ApplicationRole.Admin);
     }
-
-    ngOnInit() {}
 }

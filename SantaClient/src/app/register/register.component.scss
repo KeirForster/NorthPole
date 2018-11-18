@@ -10,12 +10,20 @@ form {
     max-width: 500px;
 }
 
-label[for="good"],
-label[for="naughty"] {
+label[for="isNaughty"] {
     cursor: pointer;
 }
 .custom-control {
     padding-left: 2.5rem;
+}
+
+.ng-valid.ng-dirty:not(.password-mismatch):not(form) {
+    border-left: 5px solid #42a948; /* green */
+}
+
+.ng-invalid.ng-dirty:not(form),
+.password-mismatch {
+    border-left: 5px solid #a94442; /* red */
 }
 
 @include media-breakpoint-down('sm') {

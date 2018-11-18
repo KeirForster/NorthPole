@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -11,18 +11,21 @@ import { LoginViewModel } from './login-view-model';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnDestroy {
-    private authSubscription: Subscription;
-    model: LoginViewModel;
+export class LoginComponent implements OnInit, OnDestroy {
     readonly faSync: any; // loading icon
+    model: LoginViewModel;
     submitted: boolean;
     loginError: string;
+    private authSubscription: Subscription;
 
     constructor(private router: Router, private authService: AuthService) {
-        this.authService.logout(); // logout any previously logged-in users
-        this.model = {} as LoginViewModel;
         this.faSync = faSync;
+        this.model = {} as LoginViewModel;
         this.submitted = false;
+    }
+
+    ngOnInit(): void {
+        this.authService.logout(); // logout any previously logged-in users
     }
 
     ngOnDestroy(): void {
