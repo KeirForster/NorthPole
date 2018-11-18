@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { ApplicationRole } from './application-role';
+import { ApplicationRole } from './application-role.enum';
 import { LoginViewModel } from './login-view-model';
 import { Observe } from './observe.enum';
 

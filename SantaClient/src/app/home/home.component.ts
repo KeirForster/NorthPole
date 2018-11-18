@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApplicationRole } from './../login/application-role';
+import { ApplicationRole } from '../login/application-role.enum';
 import { AuthService } from './../login/auth.service';
 
 @Component({
@@ -10,12 +10,14 @@ import { AuthService } from './../login/auth.service';
 })
 export class HomeComponent implements OnInit {
     username: string;
-    admin: boolean;
 
     constructor(private authService: AuthService) {
         this.username = this.authService.getSubject();
-        this.admin = this.authService.isInRole(ApplicationRole.Admin);
     }
 
     ngOnInit() {}
+
+    isAdmin() {
+        this.authService.isInRole(ApplicationRole.Admin);
+    }
 }
