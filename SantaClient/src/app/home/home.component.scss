@@ -24,7 +24,7 @@ a:not([href]):not([tabindex]).active {
 .list-group-item.active {
     z-index: 2;
     color: #fff;
-    background-color: $success;
+    background: rgba(40, 167, 69, 0.6);
     border-color: $success;
 }
 

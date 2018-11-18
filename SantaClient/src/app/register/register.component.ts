@@ -20,6 +20,7 @@ import {
 import { RegisterService } from './register.service';
 import { RegisterViewModel } from './register-view-model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SantaListService } from '../home/santa-list.service';
 
 @Component({
     selector: 'app-register',
@@ -40,6 +41,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     constructor(
         private authService: AuthService,
         private regService: RegisterService,
+        private santaService: SantaListService,
         private router: Router,
         private route: ActivatedRoute
     ) {
@@ -51,15 +53,29 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        // route data passed
-        if (this.route.snapshot.data.redirectUrl) {
-            // update redirect url
-            this.redirectUrl = this.route.snapshot.data.redirectUrl;
+
+        if (this.route.snapshot.data.update) {
+            // update user
+            // update register success redirect url
+            const redirectUrl = this.route.snapshot.data.redirectUrl;
+            this.redirectUrl = redirectUrl || this.redirectUrl;
+
+            // fetch user from db
+            // this.santaService.getChild(this.route.snapshot);
+
         } else {
-            // logout any previously logged-in users
-            this.authService.logout();
+            // create new user
+            if (this.route.snapshot.data.redirectUrl) {
+                // create as admin
+                // update register success redirect url
+                this.redirectUrl = this.route.snapshot.data.redirectUrl;
+            } else {
+                // create as unauthenticated user
+                this.authService.logout();
+            }
+            // create the form
+            this.createForm();
         }
-        this.createForm();
     }
 
     ngOnDestroy(): void {

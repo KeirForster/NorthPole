@@ -56,9 +56,9 @@ namespace NorthPole.Controllers
             }
         }
 
-        // PUT children/{UserName}
-        [HttpPut("children/{userName}")]
-        public ActionResult UpdateChild(string userName, [FromBody] ApplicationUser child)
+        // PUT children/{id}
+        [HttpPut("children/{id}")]
+        public ActionResult UpdateChild(string id, [FromBody] ApplicationUser child)
         {
             try
             {
@@ -81,10 +81,10 @@ namespace NorthPole.Controllers
                 }
 
                 // get child from db
-                var dbChild = context.ApplicationUsers.Where(user => user.UserName == userName).FirstOrDefault();
+                var dbChild = context.ApplicationUsers.Where(user => user.Id == id).FirstOrDefault();
                 if (dbChild == null)
                 {
-                    throw new Exception(userName + " not found");
+                    throw new Exception("Child with id: " + id + " not found");
                 }
 
                 // update child attributes

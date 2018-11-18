@@ -24,11 +24,11 @@ const routes: Routes = [
         data: { redirectUrl: '/home' }
     },
     {
-        path: 'home/add-child/:userName',
+        path: 'home/children/:id',
         component: RegisterComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard, AdminGuard],
-        data: { redirectUrl: '/home/app-child' }
+        data: { redirectUrl: '/home', update: true }
     },
     { path: '**', redirectTo: 'home' }
 ];
