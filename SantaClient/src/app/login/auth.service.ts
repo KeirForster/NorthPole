@@ -12,16 +12,16 @@ import { Observe } from './observe.enum';
 })
 export class AuthService {
     private static readonly authenticateUrl =
-        'https://localhost:44302/api/login';
+    'https://localhost:44302/api/login';
     private static readonly observeType = Observe.response;
     private static readonly tokenName = 'token';
     private static readonly invalidTokenMsg = 'invalid token';
     private static readonly authSuccessMsg = 'login success';
+    readonly authenticationStatus: Subject<boolean>;
     private subject: string;
     private expiration: Date;
     private roles: ApplicationRole[];
     private authenticated: boolean;
-    readonly authenticationStatus: Subject<boolean>;
 
     constructor(private http: HttpClient) {
         this.authenticated = false;

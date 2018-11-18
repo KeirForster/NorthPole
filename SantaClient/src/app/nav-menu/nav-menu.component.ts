@@ -14,15 +14,14 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./nav-menu.component.scss']
 })
 export class NavMenuComponent implements OnInit, OnDestroy {
-    private authSubscription: Subscription;
     readonly faUserPlus;
     readonly faSignInAlt;
     readonly faHome;
     isExpanded: boolean;
     authenticated: boolean;
+    private authSubscription: Subscription;
 
     constructor(private router: Router, private authService: AuthService) {
-        this.authenticated = this.authService.isAuthenticated();
         this.faUserPlus = faUserPlus;
         this.faSignInAlt = faSignInAlt;
         this.faHome = faHome;
@@ -30,6 +29,9 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        // get authentication status at runtime
+        this.authenticated = this.authService.isAuthenticated();
+
         // listen for changes to authentication status
         this.authSubscription = this.authService.authenticationStatus.subscribe(
             auth => (this.authenticated = auth)
