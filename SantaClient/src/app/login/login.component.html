@@ -1,96 +1,117 @@
-<div class="form-container">
-    <form
-        class="container-fluid form-signin"
-        (ngSubmit)="onSubmit()"
-        #loginForm="ngForm"
-    >
-        <div class="row">
-            <div class="col-12">
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            </div>
+<div class="container-fluid">
+    <div class="col-12">
+        <!-- icon -->
+        <div class="logo-container">
+            <img
+                src="../../assets/north-pole.svg"
+                alt="north pole"
+                class="img-fluid d-inline-block"
+            />
         </div>
 
-        <!-- login error -->
-        <div class="row">
-            <div class="col-12">
-                <div
-                    *ngIf="loginError"
-                    class="alert alert-danger my-2 text-center"
-                >
-                    {{ loginError }}
+        <!-- form -->
+        <div class="col-12 d-flex justify-content-center">
+            <form
+                class="form-signin"
+                (ngSubmit)="onSubmit()"
+                #loginForm="ngForm"
+            >
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="h3 mb-3 font-weight-normal text-center">
+                            Please sign in
+                        </h1>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <!-- email -->
-            <div class="col-12">
-                <label for="email" class="sr-only">Email address</label>
-                <input
-                    id="email"
-                    class="form-control"
-                    name="email"
-                    type="email"
-                    required
-                    autocomplete="email"
-                    placeholder="Email address"
-                    [(ngModel)]="model.email"
-                    [disabled]="submitted"
-                    #email="ngModel"
-                />
-                <!-- email form-validation error -->
-                <div
-                    *ngIf="email.invalid && email.dirty"
-                    class="alert alert-danger"
-                >
-                    Email is required
+                <!-- login error -->
+                <div class="row">
+                    <div class="col-12">
+                        <div
+                            *ngIf="loginError"
+                            class="alert alert-danger my-2 text-center"
+                        >
+                            {{ loginError }}
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- password -->
-            <div class="col-12">
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input
-                    id="password"
-                    class="form-control"
-                    name="password"
-                    type="password"
-                    required
-                    autocomplete="password"
-                    placeholder="Password"
-                    [(ngModel)]="model.password"
-                    [disabled]="submitted"
-                    #password="ngModel"
-                />
-                <!-- password form-validation error -->
-                <div
-                    *ngIf="password.invalid && password.dirty"
-                    class="alert alert-danger"
-                >
-                    Password is required
+                <div class="row">
+                    <!-- email -->
+                    <div class="col-12">
+                        <label for="email" class="sr-only">Email address</label>
+                        <input
+                            id="email"
+                            class="form-control"
+                            name="email"
+                            type="email"
+                            required
+                            autocomplete="email"
+                            placeholder="Email address"
+                            [(ngModel)]="model.email"
+                            [disabled]="submitted"
+                            #email="ngModel"
+                        />
+                        <!-- email form-validation error -->
+                        <div
+                            *ngIf="email.invalid && email.dirty"
+                            class="alert alert-danger"
+                        >
+                            Email is required
+                        </div>
+                    </div>
+
+                    <!-- password -->
+                    <div class="col-12">
+                        <label for="inputPassword" class="sr-only"
+                            >Password</label
+                        >
+                        <input
+                            id="password"
+                            class="form-control"
+                            name="password"
+                            type="password"
+                            required
+                            autocomplete="password"
+                            placeholder="Password"
+                            [(ngModel)]="model.password"
+                            [disabled]="submitted"
+                            #password="ngModel"
+                        />
+                        <!-- password form-validation error -->
+                        <div
+                            *ngIf="password.invalid && password.dirty"
+                            class="alert alert-danger"
+                        >
+                            Password is required
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- submit -->
-        <div class="row">
-            <div class="col-12">
-                <button
-                    class="btn btn-lg btn-primary btn-block"
-                    type="submit"
-                    [disabled]="!loginForm.form.valid || submitted"
-                >
-                    {{ submitted ? 'Signing in...' : 'Signin' }}
-                    <!-- show spinner icon when form is submitted -->
-                    <span
-                        *ngIf="submitted"
-                        class="position-absolute"
-                        class="pl-2"
-                    >
-                        <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
-                    </span>
-                </button>
-            </div>
+                <!-- submit -->
+                <div class="row">
+                    <div class="col-12">
+                        <button
+                            class="btn btn-lg btn-primary btn-block"
+                            type="submit"
+                            [disabled]="!loginForm.form.valid || submitted"
+                        >
+                            {{ submitted ? 'Signing in...' : 'Signin' }}
+                            <!-- show spinner icon when form is submitted -->
+                            <span
+                                *ngIf="submitted"
+                                class="position-absolute"
+                                class="pl-2"
+                            >
+                                <fa-icon
+                                    [icon]="faSync"
+                                    [spin]="true"
+                                ></fa-icon>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
