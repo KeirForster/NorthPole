@@ -21,3 +21,21 @@ body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
+.modal.fade,
+.modal.fade.show {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-header .close {
+    position: absolute;
+    padding: 15px 15px;
+    margin: 0;
+    right: 0;
+    top: -5px;
+}

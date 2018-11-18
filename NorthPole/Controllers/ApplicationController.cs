@@ -113,9 +113,9 @@ namespace NorthPole.Controllers
 
         }
 
-        // DELETE children/{UserName}
-        [HttpDelete("children/{userName}")]
-        public ActionResult Delete(string userName)
+        // DELETE children/{id}
+        [HttpDelete("children/{id}")]
+        public ActionResult Delete(string id)
         {
             try
             {
@@ -132,10 +132,10 @@ namespace NorthPole.Controllers
                 }
 
                 // get child from db
-                var dbChild = context.ApplicationUsers.Where(user => user.UserName == userName).FirstOrDefault();
+                var dbChild = context.ApplicationUsers.Where(user => user.Id == id).FirstOrDefault();
                 if (dbChild == null)
                 {
-                    throw new Exception(userName + " not found");
+                    throw new Exception("Child with id: " + id + " not found");
                 }
 
                 // delete child
