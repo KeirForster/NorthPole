@@ -2,8 +2,11 @@
     <div class="col-12">
         <!-- admin header -->
         <div *ngIf="admin; else: child" class="text-center">
-            <h3>Welcome to Santa's List!</h3>
-            <h5>Manage the children below</h5>
+            <h3>
+                <span class="text-success">Welcome</span> to
+                <span class="text-danger">Santa's</span> Panel!
+            </h3>
+            <h5>Manage your list below</h5>
         </div>
 
         <!-- child header -->
@@ -44,15 +47,79 @@
                             {{ child.firstName + ' ' + child.lastName }}
                         </h5>
                         <small>
-                            <div class="btn">
+                            <a
+                                class="btn mr-2"
+                                [ngClass]="{
+                                    'bg-dark': !isOdd,
+                                    'text-white': !isOdd,
+                                    'bg-white': isOdd,
+                                    'text-dark': isOdd
+                                }"
+                            >
                                 <fa-icon [icon]="faPencilAlt"></fa-icon>
-                            </div>
-                            <div class="btn">
+                            </a>
+                            <a
+                                class="btn bg-danger text-white"
+                                [ngClass]="{
+                                    'bg-danger': !isOdd,
+                                    'text-white': !isOdd,
+                                    'bg-white': isOdd,
+                                    'text-danger': isOdd
+                                }"
+                                (click)="openModal(modal)"
+                            >
                                 <fa-icon [icon]="faTrash"></fa-icon>
-                            </div>
+                            </a>
                         </small>
+
+                        <!-- delete child modal -->
+                        <ng-template #modal>
+                            <div class="modal-header d-flex px-5 justify-content-center">
+                                <h4 class="modal-title">
+                                    Are you sure you want to remove
+                                    <!-- delete error -->
+                                    <div
+                                        *ngIf="deleteChildError"
+                                        class="h6 alert alert-danger my-2 text-center">
+                                        Failed to delete {{ child.firstName + ' ' + child.lastName }}
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="modal-body pt-0">
+                                <div class="h4 text-center text-primary font-italic pb-3 mb-0">
+                                    {{ child.firstName + ' ' + child.lastName }}
+                                </div>
+                                <div class="text-center">
+                                    <small>This
+                                        <span class="font-weight-bold font-italic">
+                                            cannot
+                                        </span>
+                                        be undone.
+                                    </small>
+                                </div>
+                                <div class="d-flex justify-content-center pt-3">
+                                    <button class="col-4 btn btn-outline-danger mr-2"
+                                            (click)="deleteChild(child)"
+                                            [disabled]="processingDelete">
+                                            {{ processingDelete ? 'Deleting...' : 'Delete' }}
+                                            <span
+                                                *ngIf="processingDelete"
+                                                class="position-absolute"
+                                                class="pl-2">
+                                                <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
+                                            </span>
+                                    </button>
+                                    <button class="col-4 btn btn-outline-primary ml-2"
+                                            (click)="modalRef.hide()"
+                                            [disabled]="processingDelete">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
                     </div>
-                    <p class="mb-1">{{ child.country }}</p>
+                    <p class="mb-2">
+                        {{ child.city + ', ' + child.province + ' ' + child.country }}
+                    </p>
                     <small class="icon-container d-inline-block">
                         <img
                             src="../../assets/{{ child.isNaughty ? 'naughty' : 'santa' }}.svg"

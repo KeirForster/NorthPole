@@ -20,8 +20,15 @@ const routes: Routes = [
         path: 'home/add-child',
         component: RegisterComponent,
         pathMatch: 'full',
-        canActivate: [AdminGuard],
+        canActivate: [AuthGuard, AdminGuard],
         data: { redirectUrl: '/home' }
+    },
+    {
+        path: 'home/add-child/:userName',
+        component: RegisterComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard, AdminGuard],
+        data: { redirectUrl: '/home/app-child' }
     },
     { path: '**', redirectTo: 'home' }
 ];
