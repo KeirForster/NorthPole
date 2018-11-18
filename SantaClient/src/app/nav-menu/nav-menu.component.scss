@@ -6,12 +6,25 @@
 .link-active,
 .link-active:hover,
 .link-active:focus {
-    background-color: #4189c7;
+    background-color: $success;
     color: white;
+}
+
+a {
+    color: $success;
 }
 
 .navbar-brand {
     margin-right: 0;
+}
+
+.logo-container {
+    left: 23%;
+    padding-right: 1rem;
+    position: absolute;
+    top: 43%;
+    transform: translate(-50%, -50%);
+    width: 43px;
 }
 
 .hamburger {

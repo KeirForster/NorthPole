@@ -2,13 +2,13 @@
     <div class="col-12 py-5 text-center">
         <!-- heading -->
         <div class="col-12">
-            <h2>Northpole Signup</h2>
+            <h2 class="text-danger">Northpole Signup</h2>
 
             <!-- navigated from /home -->
             <ng-container
                 *ngIf="getRedirectUrl() === '/home'; else: loginRedirect"
             >
-                <p class="lead">Add a child to Santa list</p>
+                <p class="lead text-success">Add a child to Santa's list</p>
                 <div class="back d-flex justify-content-center">
                     <div class="col back-inner text-left">
                         <a routerLink="{{ getRedirectUrl() }}">
@@ -23,7 +23,7 @@
 
             <!-- navigated from other -->
             <ng-template #loginRedirect>
-                <p class="lead">Register below to join santa's mailing list.</p>
+                <p class="lead text-success">Register below to join santa's mailing list.</p>
             </ng-template>
         </div>
 
@@ -54,7 +54,7 @@
                     >
                         <!-- don't display label above naughty checkbox -->
                         <ng-container *ngIf="prop.propertyName != 'isNaughty'">
-                            <label for="{{ prop.propertyName }}">
+                            <label for="{{ prop.propertyName }}" class="text-success">
                                 {{ prop.displayName }}
                             </label>
                         </ng-container>
@@ -151,7 +151,7 @@
                                     (change)="onCheckboxChange($event)"
                                 />
                                 <label
-                                    class="custom-control-label"
+                                    class="custom-control-label text-success"
                                     for="{{ prop.propertyName }}"
                                     >Naughty</label
                                 >
@@ -213,7 +213,7 @@
                 <!-- submit -->
                 <div class="col-12 mb-3 text-left">
                     <button
-                        class="btn btn-primary btn-lg btn-block"
+                        class="btn btn-danger btn-lg btn-block"
                         type="submit"
                         [disabled]="!registerFormGroup.valid || submitted"
                     >
