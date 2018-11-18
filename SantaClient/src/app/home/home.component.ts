@@ -11,13 +11,12 @@ import { AuthService } from './../login/auth.service';
 export class HomeComponent implements OnInit {
     username: string;
 
+    readonly admin: boolean;
+
     constructor(private authService: AuthService) {
         this.username = this.authService.getSubject();
+        this.admin = this.authService.isInRole(ApplicationRole.Admin);
     }
 
     ngOnInit() {}
-
-    isAdmin() {
-        this.authService.isInRole(ApplicationRole.Admin);
-    }
 }
