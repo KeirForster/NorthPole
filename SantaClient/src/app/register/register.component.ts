@@ -12,7 +12,7 @@ import { RegisterViewModel } from './register-view-model';
 })
 export class RegisterComponent implements OnInit {
     model: RegisterViewModel;
-    confirmPassword: { [value: string]: string };
+    confirmPassword: { [key: string]: string };
     readonly faSync: any; // loading icon
     submitted: boolean;
     registerErrorMsg: string;
