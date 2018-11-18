@@ -6,11 +6,12 @@
     display: flex;
 }
 
-form {
+form,
+.back-inner {
     max-width: 500px;
 }
 
-label[for="isNaughty"] {
+label[for='isNaughty'] {
     cursor: pointer;
 }
 .custom-control {

@@ -1,20 +1,64 @@
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <p>Hello {{ username }}</p>
+<div class="container-fluid">
+    <div class="col-12">
+        <!-- admin header -->
+        <div *ngIf="admin; else: child" class="text-center">
+            <h3>Welcome to Santa's List!</h3>
+            <h5>Manage the children below</h5>
+        </div>
 
-            <!-- admin content -->
-            <div *ngIf="admin; else: child">
-                <h3>Welcome to Santa's List!</h3>
-                <h5>Manage the children below</h5>
+        <!-- child header -->
+        <ng-template #child>
+            <div class="text-center">
+                <h3>Thanks, {{ username }} for joining Santa's list</h3>
+                <h5>Your presents are coming, so don't be naughty!</h5>
+            </div>
+        </ng-template>
+    </div>
+
+    <!-- admin content -->
+    <div *ngIf="admin" class="col-12 d-flex justify-content-center mt-5">
+        <div class="admin-container">
+            <div class="col-12 mb-3 pl-0">
+                <div class="row">
+                    <a routerLink="/home/add-child" class="col-6">
+                        <span class="position-absolute" class="pr-2">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                        </span>
+                        Add Child
+                    </a>
+                </div>
             </div>
 
-            <!-- child content -->
-            <ng-template #child>
-                <div>
-                    <p>Nothing to do as a child, thank you for registering</p>
-                </div>
-            </ng-template>
+            <!-- children list -->
+            <div class="list-group">
+                <a
+                    *ngFor="let child of children; odd as isOdd"
+                    class="list-group-item list-group-item-action flex-column align-items-start"
+                    [ngClass]="{ active: isOdd }"
+                >
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">
+                            {{ child.firstName + ' ' + child.lastName }}
+                        </h5>
+                        <small>
+                            <div class="btn">
+                                <fa-icon [icon]="faPencilAlt"></fa-icon>
+                            </div>
+                            <div class="btn">
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </div>
+                        </small>
+                    </div>
+                    <p class="mb-1">{{ child.country }}</p>
+                    <small class="icon-container d-inline-block">
+                        <img
+                            src="../../assets/{{ child.isNaughty ? 'naughty' : 'santa' }}.svg"
+                            alt="naughty"
+                            class="img-fluid d-inline-block"
+                        />
+                    </small>
+                </a>
+            </div>
         </div>
     </div>
 </div>
