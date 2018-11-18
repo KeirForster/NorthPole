@@ -4,7 +4,7 @@
             <p>Hello {{ username }}</p>
 
             <!-- admin content -->
-            <div *ngIf="isAdmin(); else: child">
+            <div *ngIf="admin; else: child">
                 <h3>Welcome to Santa's List!</h3>
                 <h5>Manage the children below</h5>
             </div>
