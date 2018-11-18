@@ -1,5 +1,5 @@
 import { AuthService } from './../login/auth.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
     FormGroup,
     FormControl,
@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { faSync, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FormControlProperty } from './form-control-property';
 import {
     emailPattern,
@@ -19,7 +19,7 @@ import {
 } from './regex';
 import { RegisterService } from './register.service';
 import { RegisterViewModel } from './register-view-model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -28,28 +28,37 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
     readonly faSync: any; // loading icon
+    readonly faAngleLeft: any; // left arrow icon
     registerForm: FormGroup;
     model: RegisterViewModel;
     formControlProperties: FormControlProperty[];
     submitted: boolean;
     registerError: string;
-    @Input() redirectUrl: string;
     private regSubscription: Subscription;
+    private redirectUrl = '/login';
 
     constructor(
         private authService: AuthService,
         private regService: RegisterService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {
         this.faSync = faSync;
+        this.faAngleLeft = faAngleLeft;
         this.model = {} as RegisterViewModel;
         this.formControlProperties = this.setFormControlProperties();
         this.submitted = false;
-        this.redirectUrl = '/login';
     }
 
     ngOnInit(): void {
-        this.authService.logout(); // logout any previously logged-in users
+        // route data passed
+        if (this.route.snapshot.data.redirectUrl) {
+            // update redirect url
+            this.redirectUrl = this.route.snapshot.data.redirectUrl;
+        } else {
+            // logout any previously logged-in users
+            this.authService.logout();
+        }
         this.createForm();
     }
 
@@ -57,6 +66,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (this.regSubscription) {
             this.regSubscription.unsubscribe();
         }
+    }
+
+    getRedirectUrl(): string {
+        return this.redirectUrl;
     }
 
     onCheckboxChange(event: any): void {

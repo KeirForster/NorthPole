@@ -12,7 +12,7 @@ import { Observe } from './observe.enum';
 })
 export class AuthService {
     private static readonly authenticateUrl =
-    'https://localhost:44302/api/login';
+        'https://localhost:44302/api/login';
     private static readonly observeType = Observe.response;
     private static readonly tokenName = 'token';
     private static readonly invalidTokenMsg = 'invalid token';
@@ -63,7 +63,7 @@ export class AuthService {
 
     getAuthorizationToken(): string | null {
         const token = localStorage.getItem(AuthService.tokenName);
-        if (token) {
+        if (this.tokenIsValid(token)) {
             return token;
         }
         return null;
@@ -122,7 +122,7 @@ export class AuthService {
     }
 
     private tokenIsValid(token: string): boolean {
-        if (token && token.length) {
+        if (token && token.length && token.split('.').length === 3) {
             return true;
         }
         return false;
