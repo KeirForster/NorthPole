@@ -21,6 +21,13 @@ a:not([href]):not([tabindex]).active {
     text-decoration: none;
 }
 
+.list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: $success;
+    border-color: $success;
+}
+
 @include media-breakpoint-up('md') {
     .admin-container {
         min-width: 500px;

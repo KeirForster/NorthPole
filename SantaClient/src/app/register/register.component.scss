@@ -18,6 +18,15 @@ label[for='isNaughty'] {
     padding-left: 2.5rem;
 }
 
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: $success;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    background-color: $success;
+}
+
 .ng-valid.ng-dirty:not(.password-mismatch):not(form) {
     border-left: 5px solid #42a948; /* green */
 }
