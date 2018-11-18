@@ -9,7 +9,10 @@
         <!-- child header -->
         <ng-template #child>
             <div class="text-center">
-                <h3>Thanks, {{ username }} for joining Santa's list</h3>
+                <h3>
+                    Thanks, <span class="text-success">{{ username }}</span> for
+                    joining <span class="text-danger">Santa's</span> list
+                </h3>
                 <h5>Your presents are coming, so don't be naughty!</h5>
             </div>
         </ng-template>

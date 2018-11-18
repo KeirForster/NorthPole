@@ -3,7 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
     faUserPlus,
     faSignInAlt,
-    faHome
+    faHome,
+    faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,6 +18,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     readonly faUserPlus;
     readonly faSignInAlt;
     readonly faHome;
+    readonly faSignOutAlt;
     isExpanded: boolean;
     authenticated: boolean;
     private authSubscription: Subscription;
@@ -25,6 +27,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
         this.faUserPlus = faUserPlus;
         this.faSignInAlt = faSignInAlt;
         this.faHome = faHome;
+        this.faSignOutAlt = faSignOutAlt;
         this.isExpanded = false;
     }
 
