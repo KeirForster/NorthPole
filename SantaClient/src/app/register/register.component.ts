@@ -1,47 +1,62 @@
 import { AuthService } from './../login/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import {
     FormGroup,
     FormControl,
     AbstractControl,
     Validators
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { FormControlProperty } from './form-control-property';
 import {
     emailPattern,
     datePattern,
-    postalCodePattern,
     latitudePattern,
-    longitudePattern
+    longitudePattern,
+    postalCodePattern
 } from './regex';
+import { RegisterService } from './register.service';
 import { RegisterViewModel } from './register-view-model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
     readonly faSync: any; // loading icon
     registerForm: FormGroup;
     model: RegisterViewModel;
     formControlProperties: FormControlProperty[];
     submitted: boolean;
-    registerErrorMsg: string;
-    errors: any;
+    registerError: string;
+    @Input() redirectUrl: string;
+    private regSubscription: Subscription;
 
-    constructor(private authService: AuthService) {
+    constructor(
+        private authService: AuthService,
+        private regService: RegisterService,
+        private router: Router
+    ) {
         this.faSync = faSync;
         this.model = {} as RegisterViewModel;
         this.formControlProperties = this.setFormControlProperties();
         this.submitted = false;
+        this.redirectUrl = '/login';
     }
 
     ngOnInit(): void {
         this.authService.logout(); // logout any previously logged-in users
         this.createForm();
+    }
+
+    ngOnDestroy(): void {
+        if (this.regSubscription) {
+            this.regSubscription.unsubscribe();
+        }
     }
 
     onCheckboxChange(event: any): void {
@@ -68,12 +83,44 @@ export class RegisterComponent implements OnInit {
     onSubmit(): void {
         this.submitted = true; // disable the form until response
         this.disableFormControls();
-        console.warn(this.registerForm);
+        this.setModelValues();
+        this.regSubscription = this.regService.register(this.model).subscribe(
+            (res: string) => {
+                this.router.navigate([this.redirectUrl]);
+            },
+            error => {
+                this.registerError = error;
+                this.submitted = false;
+                this.enableFormControls();
+                window.scroll(0, 0);
+            }
+        );
+    }
+
+    private setModelValues(): void {
+        for (const prop of this.formControlProperties) {
+            // confirm password not included
+            if (prop.propertyName !== 'confirmPassword') {
+                let value = this.registerForm.get(prop.propertyName).value;
+
+                // parse numbers
+                if (prop.inputType === 'number') {
+                    value = +value;
+                }
+                this.model[prop.propertyName] = value;
+            }
+        }
     }
 
     private disableFormControls(): void {
         for (const prop of this.formControlProperties) {
             this.registerForm.get(prop.propertyName).disable();
+        }
+    }
+
+    private enableFormControls(): void {
+        for (const prop of this.formControlProperties) {
+            this.registerForm.get(prop.propertyName).enable();
         }
     }
 
@@ -113,8 +160,6 @@ export class RegisterComponent implements OnInit {
             ]),
             isNaughty: new FormControl(false)
         });
-
-        // this.registerForm.get('email').disable({ onlySelf: true });
     }
 
     private setFormControlProperties(): FormControlProperty[] {

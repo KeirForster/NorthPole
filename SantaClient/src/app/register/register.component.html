@@ -15,6 +15,13 @@
                 class="row"
                 #registerFormGroup="ngForm"
             >
+                <!-- register errors -->
+                <div class="col-12  mb-3 " *ngIf="registerError">
+                    <div class="alert alert-danger my-2 text-center">
+                        {{ registerError }}
+                    </div>
+                </div>
+
                 <!-- create label and inputs for each property -->
                 <ng-container *ngFor="let prop of formControlProperties">
                     <div
