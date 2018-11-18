@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.form-container {
+.container-fluid {
     align-items: center;
     background-color: #f5f5f5;
     display: flex;
@@ -10,6 +10,14 @@
     min-height: 100vh;
     padding-bottom: 40px;
     padding-top: 40px;
+}
+
+.logo-container {
+    left: 50%;
+    position: absolute;
+    top: -50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
 }
 
 .form-signin {
@@ -49,7 +57,7 @@
 }
 
 @include media-breakpoint-down('sm') {
-    .form-container {
+    .container-fluid {
         min-height: calc(100vh - 55px);
     }
 }
