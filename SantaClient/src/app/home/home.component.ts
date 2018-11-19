@@ -86,7 +86,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                     this.removeChildFromArray(child);
                     this.processingDelete = false;
                     this.modalRef.hide();
-                    console.log(res);
                 },
                 error => {
                     this.processingDelete = false;

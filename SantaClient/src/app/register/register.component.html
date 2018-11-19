@@ -8,12 +8,15 @@
             <ng-container *ngIf="getRedirectUrl() === '/home'; else: loginRedirect">
                 <p class="lead text-success">Add a child to Santa's list</p>
                 <div class="back d-flex justify-content-center">
-                    <div class="col back-inner text-left">
-                        <a routerLink="{{ getRedirectUrl() }}">
+                    <div class="col back-inner text-left d-flex">
+                        <a routerLink="../" class="col-6 d-block">
                             <span class="position-absolute" class="pr-0">
                                 <fa-icon [icon]="faAngleLeft"></fa-icon>
                             </span>
                             Back
+                            <div class="d-inline-block santa-container">
+                                <img src="../../assets/santa2.svg" alt="map" class="img-fluid d-inline-block">
+                            </div>
                         </a>
                     </div>
                 </div>

@@ -16,7 +16,11 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { faSync, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+    faSync,
+    faAngleLeft,
+    faAngleRight
+} from '@fortawesome/free-solid-svg-icons';
 import {
     emailPattern,
     datePattern,
@@ -37,6 +41,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 export class ChildComponent implements OnInit, OnDestroy {
     readonly faSync: any; // loading icon
     readonly faAngleLeft: any; // left arrow icon
+    readonly faAngleRight: any;
     formControlProperties: FormControlProperty[];
     updateForm: FormGroup;
     submitted: boolean;
@@ -56,6 +61,7 @@ export class ChildComponent implements OnInit, OnDestroy {
     ) {
         this.faSync = faSync;
         this.faAngleLeft = faAngleLeft;
+        this.faAngleRight = faAngleRight;
         this.formControlProperties = this.setFormControlProperties();
         this.submitted = false;
         this.model = {} as ApplicationUser;
@@ -108,6 +114,10 @@ export class ChildComponent implements OnInit, OnDestroy {
 
     getRedirectUrl(): string {
         return this.redirectUrl;
+    }
+
+    getIdParameter(): string {
+        return this.route.snapshot.params.id;
     }
 
     getFormControl(controlName: string): AbstractControl {
@@ -189,7 +199,6 @@ export class ChildComponent implements OnInit, OnDestroy {
     private getChild(id: string) {
         this.santaSubscription = this.santaService.getChild(id).subscribe(
             (child: ApplicationUser) => {
-                console.log(child);
                 this.model = child;
                 this.updateEmptyForm();
 

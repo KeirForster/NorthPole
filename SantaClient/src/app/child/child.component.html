@@ -7,12 +7,24 @@
             <!-- navigated from /home -->
             <p class="lead text-success">View and update a child's contact information below</p>
             <div class="back d-flex justify-content-center">
-                <div class="col back-inner text-left">
-                    <a routerLink="{{ getRedirectUrl() }}">
+                <div class="col back-inner text-left d-flex">
+                    <a routerLink="../"  class="col-6 d-block">
                         <span class="position-absolute" class="pr-0">
                             <fa-icon [icon]="faAngleLeft"></fa-icon>
                         </span>
                         Back
+                        <div class="d-inline-block santa-container">
+                            <img src="../../assets/santa2.svg" alt="map" class="img-fluid d-inline-block">
+                        </div>
+                    </a>
+                    <a routerLink="/home/children/{{ getIdParameter() }}/map" class="col-6 d-block text-right">
+                        <div class="d-inline-block">
+                            <img src="../../assets/map.svg" alt="map" class="img-fluid d-inline-block">
+                        </div>
+                        Map
+                        <span class="position-absolute" class="pr-0">
+                            <fa-icon [icon]="faAngleRight"></fa-icon>
+                        </span>
                     </a>
                 </div>
             </div>
