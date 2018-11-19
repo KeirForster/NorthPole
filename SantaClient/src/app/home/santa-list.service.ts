@@ -20,6 +20,8 @@ export class SantaListService {
         'https://localhost:44302/api/children';
     private static readonly deleteChildUrlBase =
         'https://localhost:44302/api/children';
+    private static readonly getChildUrlBase =
+        'https://localhost:44302/api/children';
     private static readonly updateChildUrlBase =
         'https://localhost:44302/api/children';
     private static readonly observeType = Observe.body;
@@ -49,7 +51,7 @@ export class SantaListService {
             );
     }
 
-    getChild(id: string): Observable<string> {
+    getChild(id: string): Observable<ApplicationUser> {
         const token = this.authService.getAuthorizationToken();
 
         if (!token) {
@@ -57,15 +59,38 @@ export class SantaListService {
             throw new Error(SantaListService.invalidTokenMsg);
         }
 
-        const url = `${SantaListService.updateChildUrlBase}/${id}`;
+        const url = `${SantaListService.getChildUrlBase}/${id}`;
 
         return this.http
-            .put(url, {
+            .get<ApplicationUser>(url, {
                 observe: SantaListService.observeType,
                 headers: new HttpHeaders({
                     Authorization: `Bearer ${token}`
                 }),
                 params: new HttpParams().set('id', id)
+            })
+            .pipe(
+                catchError(this.handleError) // handle error
+            );
+    }
+
+    updateChild(child: ApplicationUser): Observable<string> {
+        const token = this.authService.getAuthorizationToken();
+
+        if (!token) {
+            // valid token not found
+            throw new Error(SantaListService.invalidTokenMsg);
+        }
+
+        const url = `${SantaListService.updateChildUrlBase}/${child.id}`;
+
+        return this.http
+            .put(url, child, {
+                observe: SantaListService.observeType,
+                headers: new HttpHeaders({
+                    Authorization: `Bearer ${token}`
+                }),
+                params: new HttpParams().set('id', child.id)
             })
             .pipe(
                 map(res => SantaListService.updateChildSuccessMsg),

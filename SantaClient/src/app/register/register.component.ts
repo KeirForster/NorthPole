@@ -1,3 +1,4 @@
+import { ApplicationUser } from './../home/application-user';
 import { AuthService } from './../login/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
@@ -20,7 +21,6 @@ import {
 import { RegisterService } from './register.service';
 import { RegisterViewModel } from './register-view-model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SantaListService } from '../home/santa-list.service';
 
 @Component({
     selector: 'app-register',
@@ -41,7 +41,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     constructor(
         private authService: AuthService,
         private regService: RegisterService,
-        private santaService: SantaListService,
         private router: Router,
         private route: ActivatedRoute
     ) {
@@ -53,29 +52,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
-        if (this.route.snapshot.data.update) {
-            // update user
-            // update register success redirect url
-            const redirectUrl = this.route.snapshot.data.redirectUrl;
-            this.redirectUrl = redirectUrl || this.redirectUrl;
-
-            // fetch user from db
-            // this.santaService.getChild(this.route.snapshot);
-
+        if (this.route.snapshot.data.redirectUrl) {
+            // create as admin
+            // update redirect url for successful registration
+            this.redirectUrl = this.route.snapshot.data.redirectUrl;
         } else {
-            // create new user
-            if (this.route.snapshot.data.redirectUrl) {
-                // create as admin
-                // update register success redirect url
-                this.redirectUrl = this.route.snapshot.data.redirectUrl;
-            } else {
-                // create as unauthenticated user
-                this.authService.logout();
-            }
-            // create the form
-            this.createForm();
+            // create as an unauthenticated user
+            this.authService.logout();
         }
+        // create the form
+        this.createForm();
     }
 
     ngOnDestroy(): void {
@@ -143,13 +129,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     private disableFormControls(): void {
         for (const prop of this.formControlProperties) {
-            this.registerForm.get(prop.propertyName).disable();
+            const formCtrl = this.registerForm.get(prop.propertyName);
+
+            if (formCtrl) {
+                formCtrl.disable();
+            }
         }
     }
 
     private enableFormControls(): void {
         for (const prop of this.formControlProperties) {
-            this.registerForm.get(prop.propertyName).enable();
+            const formCtrl = this.registerForm.get(prop.propertyName);
+
+            if (formCtrl) {
+                formCtrl.enable();
+            }
         }
     }
 

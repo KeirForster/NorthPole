@@ -56,6 +56,41 @@ namespace NorthPole.Controllers
             }
         }
 
+        // GET children/{id}
+        [HttpGet("children/{id}")]
+        public IActionResult GetChild(string id)
+        {
+            try
+            {
+                // get current user
+                var currentUser = FetchCurrentUser();
+
+                // verify admin role
+                if (!userManager.IsInRoleAsync(FetchCurrentUser(), "Admin").Result)
+                {
+                    return StatusCode(401, new
+                    {
+                        error = "You are not authorized to access this resource"
+                    });
+                }
+
+                // get child from db
+                var dbChild = context.ApplicationUsers.Where(user => user.Id == id).FirstOrDefault();
+                if (dbChild == null)
+                {
+                    throw new Exception("Child with id: " + id + " not found");
+                }
+                // return child
+                return Ok(dbChild);
+            }
+
+            catch (Exception e)
+            {
+                return StatusCode(404, new { error = e.Message });
+            }
+
+        }
+
         // PUT children/{id}
         [HttpPut("children/{id}")]
         public ActionResult UpdateChild(string id, [FromBody] ApplicationUser child)
