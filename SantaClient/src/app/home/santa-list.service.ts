@@ -17,13 +17,13 @@ import { Observe } from '../login/observe.enum';
 })
 export class SantaListService {
     private static readonly getChildrenUrl =
-        'https://localhost:44302/api/children';
+        'https://keir-bcit-asn2-api.azurewebsites.net/api/children';
     private static readonly deleteChildUrlBase =
-        'https://localhost:44302/api/children';
+        'https://keir-bcit-asn2-api.azurewebsites.net/api/children';
     private static readonly getChildUrlBase =
-        'https://localhost:44302/api/children';
+        'https://keir-bcit-asn2-api.azurewebsites.net/api/children';
     private static readonly updateChildUrlBase =
-        'https://localhost:44302/api/children';
+        'https://keir-bcit-asn2-api.azurewebsites.net/api/children';
     private static readonly observeType = Observe.body;
     private static readonly invalidTokenMsg = 'invalid token';
     private static readonly deleteChildSuccessMsg = 'delete child success';

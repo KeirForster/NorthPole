@@ -11,7 +11,7 @@ import { Observe } from '../login/observe.enum';
 })
 export class RegisterService {
     private static readonly registerUrl =
-        'https://localhost:44302/api/register';
+        'https://keir-bcit-asn2-api.azurewebsites.net/api/register';
     private static readonly observeType = Observe.response;
     private static readonly registerSuccessMsg = 'register success';
 

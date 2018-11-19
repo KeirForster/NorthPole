@@ -16,7 +16,7 @@ import { Observe } from './observe.enum';
 })
 export class AuthService {
     private static readonly authenticateUrl =
-        'https://localhost:44302/api/login';
+        'https://keir-bcit-asn2-api.azurewebsites.net/api/login';
     private static readonly observeType = Observe.response;
     private static readonly tokenName = 'token';
     private static readonly invalidTokenMsg = 'invalid token';

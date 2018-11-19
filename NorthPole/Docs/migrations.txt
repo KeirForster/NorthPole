@@ -1,0 +1,3 @@
+﻿Migration #1:
+
+Create the Identity model classes and seed the db with sample data
