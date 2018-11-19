@@ -1,3 +1,4 @@
+import { ApplicationUser } from './../home/application-user';
 import { AuthService } from './../login/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
@@ -51,14 +52,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        // route data passed
         if (this.route.snapshot.data.redirectUrl) {
-            // update redirect url
+            // create as admin
+            // update redirect url for successful registration
             this.redirectUrl = this.route.snapshot.data.redirectUrl;
         } else {
-            // logout any previously logged-in users
+            // create as an unauthenticated user
             this.authService.logout();
         }
+        // create the form
         this.createForm();
     }
 
@@ -127,13 +129,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     private disableFormControls(): void {
         for (const prop of this.formControlProperties) {
-            this.registerForm.get(prop.propertyName).disable();
+            const formCtrl = this.registerForm.get(prop.propertyName);
+
+            if (formCtrl) {
+                formCtrl.disable();
+            }
         }
     }
 
     private enableFormControls(): void {
         for (const prop of this.formControlProperties) {
-            this.registerForm.get(prop.propertyName).enable();
+            const formCtrl = this.registerForm.get(prop.propertyName);
+
+            if (formCtrl) {
+                formCtrl.enable();
+            }
         }
     }
 

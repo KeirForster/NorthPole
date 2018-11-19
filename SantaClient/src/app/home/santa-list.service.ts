@@ -18,17 +18,24 @@ import { Observe } from '../login/observe.enum';
 export class SantaListService {
     private static readonly getChildrenUrl =
         'https://localhost:44302/api/children';
-    private static readonly deleteChildUrlBase = 'https://localhost:44302/api/children';
+    private static readonly deleteChildUrlBase =
+        'https://localhost:44302/api/children';
+    private static readonly getChildUrlBase =
+        'https://localhost:44302/api/children';
+    private static readonly updateChildUrlBase =
+        'https://localhost:44302/api/children';
     private static readonly observeType = Observe.body;
     private static readonly invalidTokenMsg = 'invalid token';
     private static readonly deleteChildSuccessMsg = 'delete child success';
+    private static readonly updateChildSuccessMsg = 'update child success';
+
     constructor(private http: HttpClient, private authService: AuthService) {}
 
     getChildren(): Observable<ApplicationUser[]> {
         const token = this.authService.getAuthorizationToken();
 
-        // valid token not found
         if (!token) {
+            // valid token not found
             throw new Error(SantaListService.invalidTokenMsg);
         }
 
@@ -44,11 +51,58 @@ export class SantaListService {
             );
     }
 
+    getChild(id: string): Observable<ApplicationUser> {
+        const token = this.authService.getAuthorizationToken();
+
+        if (!token) {
+            // valid token not found
+            throw new Error(SantaListService.invalidTokenMsg);
+        }
+
+        const url = `${SantaListService.getChildUrlBase}/${id}`;
+
+        return this.http
+            .get<ApplicationUser>(url, {
+                observe: SantaListService.observeType,
+                headers: new HttpHeaders({
+                    Authorization: `Bearer ${token}`
+                }),
+                params: new HttpParams().set('id', id)
+            })
+            .pipe(
+                catchError(this.handleError) // handle error
+            );
+    }
+
+    updateChild(child: ApplicationUser): Observable<string> {
+        const token = this.authService.getAuthorizationToken();
+
+        if (!token) {
+            // valid token not found
+            throw new Error(SantaListService.invalidTokenMsg);
+        }
+
+        const url = `${SantaListService.updateChildUrlBase}/${child.id}`;
+
+        return this.http
+            .put(url, child, {
+                observe: SantaListService.observeType,
+                headers: new HttpHeaders({
+                    Authorization: `Bearer ${token}`
+                }),
+                params: new HttpParams().set('id', child.id)
+            })
+            .pipe(
+                map(res => SantaListService.updateChildSuccessMsg),
+                catchError(this.handleError) // handle error
+            );
+    }
+
     deleteChild(id: string): Observable<string> {
         const token = this.authService.getAuthorizationToken();
 
-        // valid token not found
         if (!token) {
+            // valid token not found
             throw new Error(SantaListService.invalidTokenMsg);
         }
 

@@ -1,0 +1,49 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.container-fluid {
+    display: flex;
+}
+
+form,
+.back-inner {
+    max-width: 500px;
+}
+
+label[for='isNaughty'] {
+    cursor: pointer;
+}
+.custom-control {
+    padding-left: 2.5rem;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: $success;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    background-color: $success;
+}
+
+.ng-valid.ng-dirty:not(.password-mismatch):not(form) {
+    border-left: 5px solid #42a948; /* green */
+}
+
+.ng-invalid.ng-dirty:not(form),
+.password-mismatch {
+    border-left: 5px solid #a94442; /* red */
+}
+
+@include media-breakpoint-down('sm') {
+    .container-fluid {
+        min-height: calc(100vh - 55px);
+    }
+}
+
+@include media-breakpoint-up('md') {
+    .container-fluid {
+        min-height: 100vh;
+    }
+}

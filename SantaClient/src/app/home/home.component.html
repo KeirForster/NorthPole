@@ -48,6 +48,7 @@
                         </h5>
                         <small>
                             <a
+                                routerLink="/home/children/{{ child.id }}"
                                 class="btn mr-2"
                                 [ngClass]="{
                                     'bg-dark': !isOdd,
@@ -86,8 +87,8 @@
                                 </h4>
                             </div>
                             <div class="modal-body pt-0">
-                                <div class="h4 text-center text-primary font-italic pb-3 mb-0">
-                                    {{ child.firstName + ' ' + child.lastName }}
+                                <div class="h4 text-center text-info font-italic pb-3 mb-0">
+                                    {{ child.firstName + ' ' + child.lastName }}<span class="text-dark">?</span>
                                 </div>
                                 <div class="text-center">
                                     <small>This
@@ -95,6 +96,9 @@
                                             cannot
                                         </span>
                                         be undone.
+                                        <span class="font-weight-bold font-italic">
+                                            {{ child.firstName + '\'s' }}
+                                        </span>account will cease to exist.
                                     </small>
                                 </div>
                                 <div class="d-flex justify-content-center pt-3">
@@ -109,13 +113,14 @@
                                                 <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
                                             </span>
                                     </button>
-                                    <button class="col-4 btn btn-outline-primary ml-2"
+                                    <button class="col-4 btn btn-outline-info ml-2"
                                             (click)="modalRef.hide()"
                                             [disabled]="processingDelete">Cancel
                                     </button>
                                 </div>
                             </div>
                         </ng-template>
+                        <!-- end of delete modal -->
                     </div>
                     <p class="mb-2">
                         {{ child.city + ', ' + child.province + ' ' + child.country }}

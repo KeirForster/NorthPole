@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminGuard } from './home/admin.guard';
 import { AuthGuard } from './login/auth.guard';
+import { ChildComponent } from './child/child.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -24,11 +25,10 @@ const routes: Routes = [
         data: { redirectUrl: '/home' }
     },
     {
-        path: 'home/add-child/:userName',
-        component: RegisterComponent,
+        path: 'home/children/:id',
+        component: ChildComponent,
         pathMatch: 'full',
-        canActivate: [AuthGuard, AdminGuard],
-        data: { redirectUrl: '/home/app-child' }
+        canActivate: [AuthGuard, AdminGuard]
     },
     { path: '**', redirectTo: 'home' }
 ];
