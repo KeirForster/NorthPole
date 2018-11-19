@@ -11,13 +11,15 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ChildComponent } from './child/child.component';
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    ChildComponent
   ],
   imports: [
     BrowserModule,

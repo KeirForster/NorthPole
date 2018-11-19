@@ -5,9 +5,7 @@
             <h2 class="text-danger">Northpole Signup</h2>
 
             <!-- navigated from /home -->
-            <ng-container
-                *ngIf="getRedirectUrl() === '/home'; else: loginRedirect"
-            >
+            <ng-container *ngIf="getRedirectUrl() === '/home'; else: loginRedirect">
                 <p class="lead text-success">Add a child to Santa's list</p>
                 <div class="back d-flex justify-content-center">
                     <div class="col back-inner text-left">
@@ -68,10 +66,10 @@
                                     class="form-control"
                                     [ngClass]="{
                                         'password-mismatch':
-                                            prop.propertyName ==
-                                                'confirmPassword' &&
-                                            confirmPasswordDirty() &&
-                                            !passwordsMatch()
+                                        prop.propertyName ==
+                                        'confirmPassword' &&
+                                        confirmPasswordDirty() &&
+                                        !passwordsMatch()
                                     }"
                                     name="{{ prop.propertyName }}"
                                     type="{{ prop.inputType }}"
@@ -134,12 +132,8 @@
 
                             <!-- naughty checkbox -->
                             <ng-container *ngSwitchCase="'checkbox'">
-                                <!--
-                                    checked attribute and different css class
-                                -->
-                                <!--
-                                    also, checkbox value needs to be manually updated in formcontrol
-                                -->
+                                <!-- checked attribute and different css class -->
+                                <!-- also, checkbox value needs to be manually updated in formcontrol -->
                                 <!-- through the onCheckboxChange() method -->
                                 <input
                                     id="{{ prop.propertyName }}"
